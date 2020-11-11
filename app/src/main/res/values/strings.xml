@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">Cafe Order</string>
+    <string name="logo_content">Логотип кафе</string>
+    <string name="insert_name">Введите имя</string>
+    <string name="insert_pswrd">Введите пароль</string>
+    <string name="button_order">создать</string>
+    <string name="button_enter">войти</string>
+    <string name="text_welcome">Добро пожаловать!</string>
+    <string name="text_warning">Все поля должны быть заполнены</string>
+    <string name="option_tea">Чай</string>
+    <string name="option_coffee">Кофе</string>
+    <string name="coffee">кофе</string>
+    <string name="tea">чай</string>
+    <string name="checkbox_milk">Молоко</string>
+    <string name="checkbox_sugar">Сахар</string>
+    <string name="checkbox_lemon">Лимон</string>
+    <string name="text_drink_type">Выберите тип напитка</string>
+    <string name="text_adding_order">Добавка в %s:</string>
+    <string name="defaultName">Гость</string>
+    <string name="defaultPassword">password</string>
+    <string name="order_text_amount">Количество:</string>
+    <string name="order_text_adding">Добавки:</string>
+    <string name="order_text_drink_type">Тип:</string>
+    <string name="hint_amount">\nКоличество напитков:</string>
+    <string name="name_worker">Name</string>
+    <string name="head_order">Заказ:</string>
+    <string name="text_paid">Заплачено</string>
+    <string name="text_wrong_psw">Неверный пароль</string>
+
+    <string-array name="spinner_array_tea">
+        <item>Черный</item>
+        <item>Красный</item>
+        <item>Зеленый</item>
+    </string-array>
+    <string-array name="spinner_array_coffee">
+        <item>Эспрессо</item>
+        <item>Латте</item>
+        <item>Американо</item>
+        <item>Капуччино</item>
+    </string-array>
+</resources>
