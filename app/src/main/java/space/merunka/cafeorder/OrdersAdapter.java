@@ -54,10 +54,10 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersView
 
     static class OrdersViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView textViewDrinkTitle;
-        private TextView textViewDrinkType;
-        private TextView textViewDrinkAddings;
-        private TextView textViewDrinkCount;
+        private final TextView textViewDrinkTitle;
+        private final TextView textViewDrinkType;
+        private final TextView textViewDrinkAddings;
+        private final TextView textViewDrinkCount;
 
         public OrdersViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -70,6 +70,11 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersView
 
     public void setOrders(List<Order> orders) {
         this.orders = orders;
+        notifyDataSetChanged();
+    }
+
+    public void deleteOrder(Order deletingOrder){
+        orders.remove(deletingOrder);
         notifyDataSetChanged();
     }
 

@@ -1,7 +1,7 @@
 package space.merunka.cafeorder;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,14 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class CreateOrderActivity extends AppCompatActivity {
 
@@ -30,16 +38,13 @@ public class CreateOrderActivity extends AppCompatActivity {
 
     private StringBuilder builderAdditions;
 
-    private MainViewModel mainViewModel;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_order);
-        Intent intent = getIntent();
-        name = intent.getStringExtra("name");
-
-        mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        db = FirebaseFirestore.getInstance();
 
         drink = getString(R.string.tea);
 
@@ -103,16 +108,42 @@ public class CreateOrderActivity extends AppCompatActivity {
             addition = "";
         }
 
-        int drinks = 1;
+        int drinksCount = 1;
         String drinksString = drinkCount.getText().toString();
         if ( !drinksString.isEmpty() && !drinksString.equals("0")){
-            drinks = Integer.parseInt(drinksString);
+            drinksCount = Integer.parseInt(drinksString);
         }
 
-        Order order = new Order(drink, drinkType, addition, drinks);
-        mainViewModel.insertOrder(order);
+        saveOrder(drink, drinkType, addition, drinksCount);
+
         Intent intent = new Intent(this, OrderListActivity.class);
-        intent.putExtra("name", name);
         startActivity(intent);
+    }
+
+    private void saveOrder(String drinkTitle, String drinkType, String drinkAddings, int drinksCount){
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            name = user.getDisplayName();
+        }
+
+        db.collection(name)
+                .document("orders")
+                .set(new Order(drinkTitle, drinkType, drinkAddings, drinksCount))
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(CreateOrderActivity.this,
+                                "Заказ оформлен", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(CreateOrderActivity.this,
+                        "Error : " + e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

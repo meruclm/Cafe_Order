@@ -24,8 +24,14 @@
     <string name="hint_amount">\nКоличество напитков:</string>
     <string name="name_worker">Name</string>
     <string name="head_order">Заказ:</string>
-    <string name="text_paid">Заплачено</string>
     <string name="text_wrong_psw">Неверный пароль</string>
+    <string name="add_new_order">Add new order</string>
+    <string name="text">text</string>
+    <string name="insert_mail">Введите эл. почту</string>
+    <string name="button_register">Зарегистрироваться</string>
+    <string name="text_user_registered">Пользователь зарегистрирован</string>
+    <string name="text_error">Ошибка</string>
+    <string name="text_new_user">Новый пользователь</string>
 
     <string-array name="spinner_array_tea">
         <item>Черный</item>
