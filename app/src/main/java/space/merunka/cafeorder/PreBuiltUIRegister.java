@@ -10,19 +10,21 @@ import android.widget.Toast;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class PreBuiltUIRegister extends AppCompatActivity {
 
-    private static final int RC_SIGN_IN = 000;
+    //FOR FUTURE
+
+    private static final int RC_SIGN_IN = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pre_built_u_i_register);
 
-        List<AuthUI.IdpConfig> providers = Arrays.asList(
+        List<AuthUI.IdpConfig> providers = Collections.singletonList(
                 new AuthUI.IdpConfig.GoogleBuilder().build());
 
         startActivityForResult(
@@ -44,8 +46,10 @@ public class PreBuiltUIRegister extends AppCompatActivity {
                 Intent intent = new Intent(PreBuiltUIRegister.this, OrderListActivity.class);
                 startActivity(intent);
             } else {
-                Toast.makeText(this,
-                        response.getError().getErrorCode(), Toast.LENGTH_SHORT).show();
+                if (response != null) {
+                    Toast.makeText(this,
+                            response.getError().getMessage(), Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }

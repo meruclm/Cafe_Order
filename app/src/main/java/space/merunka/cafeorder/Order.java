@@ -1,6 +1,8 @@
 package space.merunka.cafeorder;
 
+import com.google.firebase.database.IgnoreExtraProperties;
 
+@IgnoreExtraProperties
 public class Order {
     private String drinkTitle;
     private String drinkType;

@@ -68,6 +68,11 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersView
         }
     }
 
+    public void addOrder(Order order){
+        this.orders.add(order);
+        notifyDataSetChanged();
+    }
+
     public void setOrders(List<Order> orders) {
         this.orders = orders;
         notifyDataSetChanged();

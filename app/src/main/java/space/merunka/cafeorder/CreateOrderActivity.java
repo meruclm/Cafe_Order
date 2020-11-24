@@ -1,6 +1,5 @@
 package space.merunka.cafeorder;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -13,12 +12,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.Random;
 
 public class CreateOrderActivity extends AppCompatActivity {
 
@@ -38,13 +37,17 @@ public class CreateOrderActivity extends AppCompatActivity {
 
     private StringBuilder builderAdditions;
 
-    private FirebaseFirestore db;
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_order);
-        db = FirebaseFirestore.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            name = user.getDisplayName();
+        }
 
         drink = getString(R.string.tea);
 
@@ -57,7 +60,6 @@ public class CreateOrderActivity extends AppCompatActivity {
         milk = findViewById(R.id.checkbox_milk);
         sugar = findViewById(R.id.checkbox_sugar);
         lemon = findViewById(R.id.checkbox_lemon);
-
         drinkCount = findViewById(R.id.editTextNumber_amount);
         drinkCount.setText("1");
 
@@ -122,28 +124,12 @@ public class CreateOrderActivity extends AppCompatActivity {
 
     private void saveOrder(String drinkTitle, String drinkType, String drinkAddings, int drinksCount){
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            name = user.getDisplayName();
-        }
+        Random random = new Random();
+        int x = random.nextInt(1000000);
 
-        db.collection(name)
-                .document("orders")
-                .set(new Order(drinkTitle, drinkType, drinkAddings, drinksCount))
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(CreateOrderActivity.this,
-                                "Заказ оформлен", Toast.LENGTH_SHORT).show();
-                        finish();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(CreateOrderActivity.this,
-                        "Error : " + e.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        });
+        mDatabase.child(name).child(String.valueOf(x)).setValue(new Order(drinkTitle, drinkType, drinkAddings, drinksCount));
+        Toast.makeText(CreateOrderActivity.this,
+                R.string.text_order_created, Toast.LENGTH_SHORT).show();
     }
+
 }

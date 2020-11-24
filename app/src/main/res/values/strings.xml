@@ -32,6 +32,8 @@
     <string name="text_user_registered">Пользователь зарегистрирован</string>
     <string name="text_error">Ошибка</string>
     <string name="text_new_user">Новый пользователь</string>
+    <string name="text_sign_out">Выйти из аккаунта</string>
+    <string name="text_order_created">Заказ оформлен</string>
 
     <string-array name="spinner_array_tea">
         <item>Черный</item>
